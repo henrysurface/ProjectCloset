@@ -34,9 +34,10 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.new(appointment_params)
     @appointment.user = @current_user
-
+    @slots = Appointment.where(:time => @appointment.time, :slot => @appointment.slot).count
     respond_to do |format|
-      if @current_user.available
+      #format.json { render json: @appointment}
+      if ((@current_user.available) && (@slots<2))
         if @appointment.save
           UserMailer.make_appointment(@current_user, @appointment).deliver
           User.find(@current_user.id).update_attribute(:available, false)
@@ -46,6 +47,8 @@ class AppointmentsController < ApplicationController
           format.html { render :new }
           format.json { render json: @appointment.errors, status: :unprocessable_entity }
         end
+      elsif @slots >=2
+          format.html { redirect_to new_appointment_path , notice: "This time slot is full."}
       else
           format.html { render :new, notice: 'You has one appointment.' }
           format.json { render json: @appointment.errors, status: :unprocessable_entity }
@@ -94,7 +97,7 @@ class AppointmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-          params.require(:appointment).permit(:time, :user_id)
+          params.require(:appointment).permit(:user_id, :time, :slot)
     end
     
     def require_same_user

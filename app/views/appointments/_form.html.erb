@@ -1,4 +1,5 @@
-<%= form_for(@appointment) do |f| %>
+
+<%= form_for(@appointment, :remote => true, :data => { :type => :json }) do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
@@ -17,15 +18,244 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :time %><br>
-    <%= f.datetime_select :time %>
+    <%= f.label :time %>
+    <%= f.text_field :time %>
+    <%= f.label :slot %>
+    <%= f.text_field :slot %>
     <% if current_user %>
       <%= f.hidden_field :user_id, value: current_user.id %>
     <% elsif current_admin %>
       <%= f.hidden_field :user_id, value: @appointment.user_id %>
     <% end %>
   </div>
-  <div class="actions">
+  
+    <h2 style="text-align:center">Avaliable appointment time</h2>
+<p style="text-align:center">Please click time slots to schedule your appointment.</p>
+  
+
+<div id="datepicker" class ="datepicke_holder"></div>
+
+
+<div id= "timesheet" class= "time_sheet" styles="display: block;">
+    <ul class="moring" id = 'slots'>
+      <li class= "list_heading">Morning</li>
+      <li id= 'btn1' ><a class= 'btnc'>9:00 am</a></li>
+      <li id= 'btn2' ><a class= 'btnc'>9:15 am</a></li>
+      <li id= 'btn3' ><a class= 'btnc'>9:30 am</a></li>
+      <li id= 'btn4' ><a class= 'btnc'>9:45 am</a></li>
+      <li id= 'btn5' ><a class= 'btnc'>10:00 am</a></li>
+      <li id= 'btn6' ><a class= 'btnc'>10:15 am</a></li>
+      <li id= 'btn7' ><a class= 'btnc'>10:30 am</a></li>
+      <li id= 'btn8' ><a class= 'btnc'>10:45 am</a></li>
+      <li id= 'btn9' ><a class= 'btnc'>11:00 am</a></li>
+      <li id= 'btn10'><a class= 'btnc'>11:15 am</a></li>
+      <li id= 'btn11'><a class= 'btnc'>11:30 am</a></li>
+      <li id= 'btn12'><a class= 'btnc'>11:45 am</a></li>
+    </ul>
+    <ul class="afternoon" id = 'slots'>
+      <li class= "list_heading">Afternoon</li>
+      <li id= 'btn13'><a class= 'btnc'>12:00 pm</a></li>
+      <li id= 'btn14'><a class= 'btnc'>12:15 pm</a></li>
+      <li id= 'btn15'><a class= 'btnc'>12:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>12:45 pm</a></li>
+      <li id= 'btn17'><a class= 'btnc'>1:00 pm</a></li>
+      <li id= 'btn18'><a class= 'btnc'>1:15 pm</a></li>
+      <li id= 'btn19'><a class= 'btnc'>1:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>1:45 pm</a></li>
+      <li id= 'btn13'><a class= 'btnc'>2:00 pm</a></li>
+      <li id= 'btn14'><a class= 'btnc'>2:15 pm</a></li>
+      <li id= 'btn15'><a class= 'btnc'>2:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>3:45 pm</a></li>
+      <li id= 'btn13'><a class= 'btnc'>4:00 pm</a></li>
+      <li id= 'btn14'><a class= 'btnc'>4:15 pm</a></li>
+      <li id= 'btn15'><a class= 'btnc'>4:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>5:45 pm</a></li>
+    </ul>
+    <ul class="evening" id = 'slots'>
+      <li class= "list_heading">Evening</li>
+      <li id= 'btn13'><a class= 'btnc'>4:00 pm</a></li>
+      <li id= 'btn14'><a class= 'btnc'>4:15 pm</a></li>
+      <li id= 'btn15'><a class= 'btnc'>4:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>4:45 pm</a></li>
+      <li id= 'btn13'><a class= 'btnc'>5:00 pm</a></li>
+      <li id= 'btn14'><a class= 'btnc'>5:15 pm</a></li>
+      <li id= 'btn15'><a class= 'btnc'>5:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>5:45 pm</a></li>
+    </ul>
+</div>
+
+<center>
+  <div>
+    <button id= "submitap" class ='buttonap'>
+      Submit
+    </button>
+  </div>
+</center>
+
+  <div>
     <%= f.submit %>
   </div>
 <% end %>
+
+
+
+
+<!-- datepicker part -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Datepicker - Dates in other months</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+
+<script>
+$(document).on("turbolinks:load", function(){
+    
+    
+    var currentDate;
+    var slot;
+    var url = window.location.pathname;
+    var user = document.getElementById("appointment_user_id").value;
+    //pathname
+    $( "#datepicker" ).datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      dateFormat: "yy-mm-dd",
+      onSelect: function(date) {
+          currentDate =$(this).val();
+      },
+      beforeShowDay: function(date){ 
+        $(".ui-datepicker").css('font-size', 20) 
+        var day = date.getDay(); 
+        return [day == 1 || day == 4,""];
+        }
+      });
+    });
+    
+    $(".btnc").on('click', function(){ 
+      $(this).removeClass("off").addClass("on").parents().siblings().children().removeClass("on").addClass("off");
+      $(this).removeClass("off").addClass("on").parents().parents().siblings().children().children().removeClass("on").addClass("off");
+       slot = $(this).text();
+    });
+    
+
+    
+    $(".buttonap").on('click',function(e){
+        var dateInfo ={
+            user_id: user,
+            time: currentDate,
+            slot: slot
+        };
+        e.preventDefault();
+      
+       $.ajax({
+        beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
+        data: dateInfo,
+        type: 'POST',
+        url: '/appointments', // get the link of <a>
+        dataType: 'json', // dataType to ask
+        processData: false,
+        cache: false,
+        contentType: false,
+        success: function(r){
+          alert('Hello');
+        },
+        error: function(){
+          alert('Hi');
+        }
+        });
+    });
+</script>
+ 
+<style>
+* {
+    box-sizing: border-box;
+}
+
+.time_sheet {
+    float: right;
+    width: 62%;
+    margin-top: 0;
+    padding-bottom: 30px;
+}
+
+.time_sheet ul.morning {
+    padding-left: 10px;
+}
+.time_sheet ul {
+    float: left;
+    padding: 0 4% 0 0;
+        padding-left: 0px;
+    width: 28%;
+    min-height: 205px;
+}
+
+ul li.list_heading {
+    font-size: 20px;
+    color: #444;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 0;
+}
+
+.time_sheet ul li {
+    font-size: 12px;
+    padding: 5px 0 0;
+    text-align: center;
+    margin-bottom: 0;
+    width: 100%;
+    display: block;
+}
+
+.time_sheet ul li a {
+    color: #1a93d0;
+    font-weight: 700;
+    padding: 5px 0;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    margin: 0;
+    width: 100%;
+    display: block;
+}
+
+.datepicke_holder {
+    width: 35%;
+    height: 620.333px;
+    float: left;
+    margin-top: 0;
+    margin-left: 5px;
+}
+
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align:center;
+    font-size: 18px;
+}
+
+.time_sheet a.on { 
+    background: yellow; 
+}
+.time_sheet a.off { 
+    background: white; 
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .columns {
+        width: 100%;
+    }
+}
+</style>
+ 
+</body>
+</html>

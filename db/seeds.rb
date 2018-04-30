@@ -17,6 +17,24 @@ User.create!(first_name:  "Henry",
              password:              "123456",
              password_confirmation: "123456",
              email_confirmed: true)
+             
+User.create!(first_name:  "Henry2",
+             last_name: "Lin",
+             uin: "123456790",
+             phone: "1234567891",
+             email: "harrysurfacetw@gmail.com",
+             password:              "123456",
+             password_confirmation: "123456",
+             email_confirmed: true)
+             
+User.create!(first_name:  "Henry3",
+             last_name: "Lin",
+             uin: "123456791",
+             phone: "1234567892",
+             email: "henrysurface@tmu.com",
+             password:              "123456",
+             password_confirmation: "123456",
+             email_confirmed: true)
 
 
 Admin.create!(name:  "Henry",

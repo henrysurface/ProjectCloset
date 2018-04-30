@@ -1,5 +1,6 @@
 {
-  "name": "hello_app",
+  "name": "ProjectCloset",
   "private": true,
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {}
 }
