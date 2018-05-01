@@ -36,7 +36,6 @@ class AppointmentsController < ApplicationController
     @appointment.user = @current_user
     @slots = Appointment.where(:time => @appointment.time, :slot => @appointment.slot).count
     respond_to do |format|
-      #format.json { render json: @appointment}
       if ((@current_user.available) && (@slots<2))
         if @appointment.save
           UserMailer.make_appointment(@current_user, @appointment).deliver

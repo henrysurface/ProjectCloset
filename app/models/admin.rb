@@ -1,7 +1,7 @@
 class Admin < ApplicationRecord
   before_save   :downcase_email
   before_create :confirmation_token
-  has_many :suit
+  #has_many :suit
   attr_accessor :admin_remember_token, :admin_reset_token
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   enum codes: [:jzNvvyqZ, :R7BhQG9a, :PncCz4gm, :BsvKCFDT, :pXZEcKp8]

@@ -1,9 +1,8 @@
 
-<%= form_for(@appointment, :remote => true, :data => { :type => :json }) do |f| %>
+<%= form_for(@appointment) do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
-
       <ul>
       <% @appointment.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -18,10 +17,8 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :time %>
-    <%= f.text_field :time %>
-    <%= f.label :slot %>
-    <%= f.text_field :slot %>
+    <%= f.hidden_field :time %>
+    <%= f.hidden_field :slot %>
     <% if current_user %>
       <%= f.hidden_field :user_id, value: current_user.id %>
     <% elsif current_admin %>
@@ -84,13 +81,6 @@
     </ul>
 </div>
 
-<center>
-  <div>
-    <button id= "submitap" class ='buttonap'>
-      Submit
-    </button>
-  </div>
-</center>
 
   <div>
     <%= f.submit %>
@@ -116,10 +106,6 @@
 $(document).on("turbolinks:load", function(){
     
     
-    var currentDate;
-    var slot;
-    var url = window.location.pathname;
-    var user = document.getElementById("appointment_user_id").value;
     //pathname
     $( "#datepicker" ).datepicker({
       showOtherMonths: true,
@@ -127,48 +113,23 @@ $(document).on("turbolinks:load", function(){
       dateFormat: "yy-mm-dd",
       onSelect: function(date) {
           currentDate =$(this).val();
+          $("#appointment_time").val(currentDate);
       },
       beforeShowDay: function(date){ 
         $(".ui-datepicker").css('font-size', 20) 
         var day = date.getDay(); 
         return [day == 1 || day == 4,""];
         }
-      });
     });
     
     $(".btnc").on('click', function(){ 
       $(this).removeClass("off").addClass("on").parents().siblings().children().removeClass("on").addClass("off");
       $(this).removeClass("off").addClass("on").parents().parents().siblings().children().children().removeClass("on").addClass("off");
        slot = $(this).text();
+       $("#appointment_slot").val(slot);
     });
-    
 
-    
-    $(".buttonap").on('click',function(e){
-        var dateInfo ={
-            user_id: user,
-            time: currentDate,
-            slot: slot
-        };
-        e.preventDefault();
-      
-       $.ajax({
-        beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
-        data: dateInfo,
-        type: 'POST',
-        url: '/appointments', // get the link of <a>
-        dataType: 'json', // dataType to ask
-        processData: false,
-        cache: false,
-        contentType: false,
-        success: function(r){
-          alert('Hello');
-        },
-        error: function(){
-          alert('Hi');
-        }
-        });
-    });
+});
 </script>
  
 <style>
