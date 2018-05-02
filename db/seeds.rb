@@ -61,16 +61,3 @@ Admin.create!(name:  "Henry",
                password_confirmation: password,
                email_confirmed: true)
 end
-
-100.times do |n|
-  appid  = Faker::GameOfThrones.character
-  gender  = "F"
-  article = "Sack"
-  size = Faker::Number.number(2)
-  status = "Available"
-  Suit.create!( appid  = appid,
-                gender  = gender,
-                article = article,
-                size = size,
-                status = status)
-end
