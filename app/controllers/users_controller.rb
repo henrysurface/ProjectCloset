@@ -63,9 +63,9 @@ class UsersController < ApplicationController
     @renter = Renter.where(user_id: @user.id)
     if @renter.blank?
       @user.destroy
-      flash[:notice] = "The customer data is delete."
+      flash[:success] = "The customer data is delete."
     else
-      flash[:notice] = "You can not destroy customer data because he or she hold a suit."
+      flash[:danger] = "You can not destroy customer data because he or she hold a suit."
     end
     redirect_to users_path
   end

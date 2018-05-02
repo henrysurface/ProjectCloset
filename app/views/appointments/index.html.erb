@@ -2,15 +2,19 @@
 
 <h1 align="center">Listing Appointments</h1>
 
-<br>
-<% if current_admin %>
-   <%= search_form_for @search_appointment do |f| %>
-       <%= f.label :user_uin_cont, "Customer UIN:" %>
-       <%= f.search_field :user_uin_cont %>
-       <%= f.submit "Search" %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+   <% if current_admin %>
+      <%= search_form_for @search_appointment do |f| %>
+          <%= f.label :user_uin_cont, "Customer UIN:" %>
+          <%= f.search_field :user_uin_cont, class: 'form-control' %><br>
+          <%= f.submit "Search", class: "btn btn-primary" %>
+      <% end %>
+      <br>
    <% end %>
-   <br>
-<% end %>
+  </div>
+</div>
+
 
 
 <div align="center"><%= will_paginate %></div>
@@ -21,6 +25,6 @@
 <div align="center"><%= will_paginate %></div>
 
 <% if current_user %>
-   <%= link_to 'New Appointment', new_appointment_path %>
+   <%= link_to 'New Appointment', new_appointment_path, {:class => "btn btn-default"} %>
 <% end %>
 

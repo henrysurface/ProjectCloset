@@ -18,10 +18,10 @@ module AppointmentsHelper
     end
     
     def display_appointment_sorted_search_results_row(object)
-        string = content_tag(:td, link_to(object.time.in_time_zone('Eastern Time (US & Canada)').strftime('%Y %b %d %a'), '/appointments/' + object.id.to_s))
+        string = content_tag(:td, link_to(object.time.strftime("%Y/%m/%d"), '/appointments/' + object.id.to_s))
         string << content_tag(:td, object.slot)
         string << content_tag(:td, User.find(object.user_id).full_name)
         string << content_tag(:td, User.find(object.user_id).uin)
-        string << content_tag(:td, link_to('Edit', edit_appointment_path(object)) +'|'+ link_to('Destroy', object, method: :delete, data: { confirm: 'Are you sure?' } ))
+        string << content_tag(:td, link_to('Edit', edit_appointment_path(object)) +'|'+ link_to('Cancel', object, method: :delete, data: { confirm: 'Are you sure?' } ))
     end
 end

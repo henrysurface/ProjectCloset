@@ -26,8 +26,8 @@
     <% end %>
   </div>
   
-    <h2 style="text-align:center">Avaliable appointment time</h2>
-<p style="text-align:center">Please click time slots to schedule your appointment.</p>
+    <h2 style="text-align:center">Please select your avaliable time</h2>
+<p style="text-align:center">click date and time slots to schedule your appointment.</p>
   
 
 <div id="datepicker" class ="datepicke_holder"></div>
@@ -58,33 +58,30 @@
       <li id= 'btn17'><a class= 'btnc'>1:00 pm</a></li>
       <li id= 'btn18'><a class= 'btnc'>1:15 pm</a></li>
       <li id= 'btn19'><a class= 'btnc'>1:30 pm</a></li>
-      <li id= 'btn16'><a class= 'btnc'>1:45 pm</a></li>
-      <li id= 'btn13'><a class= 'btnc'>2:00 pm</a></li>
-      <li id= 'btn14'><a class= 'btnc'>2:15 pm</a></li>
-      <li id= 'btn15'><a class= 'btnc'>2:30 pm</a></li>
-      <li id= 'btn16'><a class= 'btnc'>3:45 pm</a></li>
-      <li id= 'btn13'><a class= 'btnc'>4:00 pm</a></li>
-      <li id= 'btn14'><a class= 'btnc'>4:15 pm</a></li>
-      <li id= 'btn15'><a class= 'btnc'>4:30 pm</a></li>
-      <li id= 'btn16'><a class= 'btnc'>5:45 pm</a></li>
+      <li id= 'btn20'><a class= 'btnc'>1:45 pm</a></li>
+      <li id= 'btn21'><a class= 'btnc'>2:00 pm</a></li>
+      <li id= 'btn22'><a class= 'btnc'>2:15 pm</a></li>
+      <li id= 'btn23'><a class= 'btnc'>2:30 pm</a></li>
+      <li id= 'btn24'><a class= 'btnc'>3:45 pm</a></li>
     </ul>
     <ul class="evening" id = 'slots'>
       <li class= "list_heading">Evening</li>
-      <li id= 'btn13'><a class= 'btnc'>4:00 pm</a></li>
-      <li id= 'btn14'><a class= 'btnc'>4:15 pm</a></li>
-      <li id= 'btn15'><a class= 'btnc'>4:30 pm</a></li>
-      <li id= 'btn16'><a class= 'btnc'>4:45 pm</a></li>
-      <li id= 'btn13'><a class= 'btnc'>5:00 pm</a></li>
-      <li id= 'btn14'><a class= 'btnc'>5:15 pm</a></li>
-      <li id= 'btn15'><a class= 'btnc'>5:30 pm</a></li>
-      <li id= 'btn16'><a class= 'btnc'>5:45 pm</a></li>
+      <li id= 'btn25'><a class= 'btnc'>4:00 pm</a></li>
+      <li id= 'btn26'><a class= 'btnc'>4:15 pm</a></li>
+      <li id= 'btn27'><a class= 'btnc'>4:30 pm</a></li>
+      <li id= 'btn29'><a class= 'btnc'>4:45 pm</a></li>
+      <li id= 'btn30'><a class= 'btnc'>5:00 pm</a></li>
+      <li id= 'btn31'><a class= 'btnc'>5:15 pm</a></li>
+      <li id= 'btn32'><a class= 'btnc'>5:30 pm</a></li>
+      <li id= 'btn33'><a class= 'btnc'>5:45 pm</a></li>
     </ul>
 </div>
 
-
-  <div>
-    <%= f.submit %>
-  </div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= f.submit "Submit", class: "btn btn-primary"  %>
+    </div>
+</div>
 <% end %>
 
 
@@ -95,7 +92,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Datepicker - Dates in other months</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -103,8 +99,7 @@
 <body>
 
 <script>
-$(document).on("turbolinks:load", function(){
-    
+$(document).ready(function(){
     
     //pathname
     $( "#datepicker" ).datepicker({
@@ -128,7 +123,10 @@ $(document).on("turbolinks:load", function(){
        slot = $(this).text();
        $("#appointment_slot").val(slot);
     });
-
+    
+    $('body').on('focus', '.class', function(){
+      $(this).datepicker();
+    });
 });
 </script>
  
@@ -141,7 +139,7 @@ $(document).on("turbolinks:load", function(){
     float: right;
     width: 62%;
     margin-top: 0;
-    padding-bottom: 30px;
+    padding-bottom: 5px;
 }
 
 .time_sheet ul.morning {
@@ -174,7 +172,7 @@ ul li.list_heading {
 
 .time_sheet ul li a {
     color: #1a93d0;
-    font-weight: 700;
+    font-weight: 600;
     padding: 5px 0;
     text-decoration: none;
     border: 1px solid #ddd;
@@ -186,21 +184,12 @@ ul li.list_heading {
 
 .datepicke_holder {
     width: 35%;
-    height: 620.333px;
+    height: 420.333px;
     float: left;
     margin-top: 0;
     margin-left: 5px;
 }
 
-
-.button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    text-align:center;
-    font-size: 18px;
-}
 
 .time_sheet a.on { 
     background: yellow; 

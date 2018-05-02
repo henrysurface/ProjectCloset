@@ -40,16 +40,18 @@ class AppointmentsController < ApplicationController
         if @appointment.save
           UserMailer.make_appointment(@current_user, @appointment).deliver
           User.find(@current_user.id).update_attribute(:available, false)
-          format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
+          flash[:success] = 'Appointment was successfully created.'
+          format.html { redirect_to @appointment}
           format.json { render :show, status: :created, location: @appointment }
         else
           format.html { render :new }
           format.json { render json: @appointment.errors, status: :unprocessable_entity }
         end
       elsif @slots >=2
-          format.html { redirect_to new_appointment_path , notice: "This time slot is full."}
+          redirect_to new_appointment_path , flash[:danger] = "This time slot is full."
       else
-          format.html { render :new, notice: 'You has one appointment.' }
+          flash[:danger] ='You can only has one appointment.'
+          format.html { render :new}
           format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
     end
@@ -62,7 +64,8 @@ class AppointmentsController < ApplicationController
     respond_to do |format|
       if @appointment.update(appointment_params)
         UserMailer.edit_appointment(@current_user, @appointment).deliver
-        format.html { redirect_to @appointment, notice: 'Appointment was successfully updated.' }
+        flash[:success] ='Appointment was successfully updated.'
+        format.html { redirect_to @appointment}
         format.json { render :show, status: :ok, location: @appointment }
       else
         format.html { render :edit }
@@ -81,7 +84,8 @@ class AppointmentsController < ApplicationController
     end
     @appointment.destroy
     respond_to do |format| 
-      format.html { redirect_to appointments_url, notice: 'Appointment was successfully destroyed.' }
+      flash[:success] = 'Appointment was successfully destroyed.'
+      format.html { redirect_to appointments_url}
       format.json { head :no_content }
     end
   end

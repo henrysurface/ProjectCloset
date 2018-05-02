@@ -22,8 +22,8 @@ module RentersHelper
     end
     
     def display_renter_sorted_search_results_row(object)
-            string = content_tag(:td, object.checkOutTime)
-            string << content_tag(:td, object.expectReturnTime)
+            string = content_tag(:td, object.checkOutTime.strftime("%Y/%m/%d"))
+            string << content_tag(:td, object.expectReturnTime.strftime("%Y/%m/%d"))
             string << content_tag(:td, (object.expectReturnTime.day- Time.now.day).to_i)
             string << content_tag(:td, object.status)
             string << content_tag(:td, link_to(User.find(object.user_id).uin, '/renters/' + object.id.to_s))

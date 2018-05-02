@@ -13,9 +13,8 @@
 //= require jquery
 //= require rails-ujs
 //= require bootstrap
-//= require turbolinks
-//= require appointments.js
 //= require_tree .
+
 
 
 
