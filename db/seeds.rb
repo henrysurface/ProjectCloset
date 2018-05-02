@@ -68,9 +68,9 @@ end
   article = "Sack"
   size = Faker::Number.number(2)
   status = "Available"
-  Suit.create!( appid  = appid,
-                gender  = gender,
-                article = article,
-                size = size,
-                status = status)
+  Suit.create!( appid: appid,
+                gender: gender,
+                article: article,
+                size: size,
+                status: status)
 end
