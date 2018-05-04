@@ -4,7 +4,6 @@ class CreateRenters < ActiveRecord::Migration[5.1]
       t.timestamp :checkOutTime, null: false
       t.timestamp :expectReturnTime, null: false
       t.timestamp :returnTime, null: true
-      t.string :status, default: "Available"
       
       t.references :user
       t.references :suit
