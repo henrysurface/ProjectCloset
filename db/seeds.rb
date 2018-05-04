@@ -62,7 +62,7 @@ Admin.create!(name:  "Henry",
                email_confirmed: true)
 end
 
-100.times do |n|
+25.times do |n|
   appid  = Faker::GameOfThrones.character
   gender  = "F"
   article = "Sack"

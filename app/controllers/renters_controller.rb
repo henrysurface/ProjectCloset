@@ -92,11 +92,9 @@ class RentersController < ApplicationController
   def destroy
     @renter = Renter.find(params[:id])
     if User.find(@renter.user_id) && Suit.find(@renter.suit_id)
-      @user = User.find(@renter.user_id)
       User.find(@renter.user_id).update_attribute(:suitCount, @user.suitCount - 1)
       Suit.find(@renter.suit_id).update_attribute(:status, "Available")
       Renter.find(@renter.id).update_attribute(:returnTime, Time.now)
-      
       @user = User.find(@renter.user_id)
       @suit = Suit.find(@renter.suit_id)
       @renters = Renter.find(@renter.id)
@@ -129,6 +127,6 @@ class RentersController < ApplicationController
   
   private
   def renter_params
-    params.require(:renter).permit(:checkOutTime, :expectReturnTime, :returnTime, :status, :user_id, :suit_id)
+    params.require(:renter).permit(:checkOutTime, :expectReturnTime, :returnTime, :user_id, :suit_id)
   end
 end
