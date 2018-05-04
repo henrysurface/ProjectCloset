@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 20180413212125) do
     t.datetime "checkOutTime", null: false
     t.datetime "expectReturnTime", null: false
     t.datetime "returnTime"
-    t.string "status", default: "Available"
     t.integer "user_id"
     t.integer "suit_id"
     t.datetime "created_at", null: false

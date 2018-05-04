@@ -18,11 +18,11 @@
         <%= form_for @renter do |f| %>
         <p>
             <%= f.label :suit_id, "App. ID" %>
-            <%= f.text_field :suit_id, class: 'form-control' %><br>
+            <%= f.collection_select :suit_id, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"}, class: 'form-control' %><br>
         </p>
         <p>
             <%= f.label :user_id, "UIN of costumer:" %>
-            <%= f.text_field, :user_id, class: 'form-control' %><br>
+            <%= f.collection_select :user_id, User.all, :id, lambda { |u| "#{u.uin}"}, {:prompt => "Please select Customer UIN"}, class: 'form-control' %><br>
         </p>
         <p>
             <%= f.label :checkOutTime, "Check out time:" %><br>
